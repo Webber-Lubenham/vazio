@@ -11,7 +11,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
@@ -39,7 +39,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
       setError('Please enter your email address');
       return;
     }
-
     setLoading(true);
     setError(null);
 
@@ -53,6 +52,29 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
       alert('Password reset instructions have been sent to your email');
     } catch (err: any) {
       setError(err.message || 'Error sending reset password email');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleMagicLink = async () => {
+    if (!email) {
+      setError('Please enter your email address');
+      return;
+    }
+    setLoading(true);
+    setError(null);
+
+    try {
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+      });
+
+      if (error) throw error;
+
+      alert('Check your email for the magic link!');
+    } catch (err: any) {
+      setError(err.message || 'An error occurred while sending the magic link');
     } finally {
       setLoading(false);
     }
@@ -169,6 +191,24 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
               {loading ? 'Signing in...' : 'Sign in'}
             </button>
           </div>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-white px-2 text-gray-500">ou</span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleMagicLink}
+            disabled={loading}
+            className="flex w-full justify-center rounded-md bg-white px-3 py-1.5 text-sm font-semibold leading-6 text-indigo-600 shadow-sm border border-indigo-300 hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-70"
+          >
+            {loading ? "Enviando..." : "Entrar com link mágico"}
+          </button>
         </form>
       </div>
     </div>

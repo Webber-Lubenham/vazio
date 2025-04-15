@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8a54424 (Update frontend files before push)
 # Environment variables
 
 
@@ -6,21 +10,53 @@ node_modules/
 dist/
 build/
 
+<<<<<<< HEAD
+=======
+>>>>>>> 367c2f9 (Initial commit: Frontend setup with React, TypeScript, and Vite)
+=======
+>>>>>>> 8a54424 (Update frontend files before push)
 # Logs
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 # Editor directories and files
 .idea/
 .vscode/
+=======
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+>>>>>>> 367c2f9 (Initial commit: Frontend setup with React, TypeScript, and Vite)
+=======
+
+# Editor directories and files
+.idea/
+.vscode/
+>>>>>>> 8a54424 (Update frontend files before push)
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8a54424 (Update frontend files before push)
 
 # OS generated files
 .DS_Store
@@ -29,4 +65,10 @@ yarn-error.log*
 .Spotlight-V100
 .Trashes
 ehthumbs.db
+<<<<<<< HEAD
 Thumbs.db 
+=======
+>>>>>>> 367c2f9 (Initial commit: Frontend setup with React, TypeScript, and Vite)
+=======
+Thumbs.db 
+>>>>>>> 8a54424 (Update frontend files before push)
