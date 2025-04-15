@@ -1,0 +1,636 @@
+Reno - supabase
+
+
+
+rsvjnndhbyyxktbczlnk
+
+VITE_SUPABASE_URL=https://rsvjnndhbyyxktbczlnk.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzdmpubmRoYnl5eGt0YmN6bG5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM0MDk3NzksImV4cCI6MjA1ODk4NTc3OX0.AlM_iSptGQ7G5qrJFHU9OECu1wqH6AXQP1zOU70L0T4
+        
+
+
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+export default supabase
+        
+
+import { useState, useEffect } from 'react'
+import { supabase } from '../utils/supabase'
+
+function Page() {
+  const [todos, setTodos] = useState([])
+
+  useEffect(() => {
+    function getTodos() {
+      const { data: todos } = await supabase.from('todos').select()
+
+      if (todos.length > 1) {
+        setTodos(todos)
+      }
+    }
+
+    getTodos()
+  }, [])
+
+  return (
+    <div>
+      {todos.map((todo) => (
+        <li key={todo}>{todo}</li>
+      ))}
+    </div>
+  )
+}
+export default Page
+
+
+EXPO_PUBLIC_SUPABASE_URL=https://rsvjnndhbyyxktbczlnk.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzdmpubmRoYnl5eGt0YmN6bG5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM0MDk3NzksImV4cCI6MjA1ODk4NTc3OX0.AlM_iSptGQ7G5qrJFHU9OECu1wqH6AXQP1zOU70L0T4
+        
+
+import 'react-native-url-polyfill/auto'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { createClient } from '@supabase/supabase-js'
+
+export const supabase = createClient(
+  process.env.EXPO_PUBLIC_SUPABASE_URL || "",
+  process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || "",
+  {
+    auth: {
+      storage: AsyncStorage,
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: false,
+    },
+  })
+        
+
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList } from 'react-native';
+import { supabase } from '../utils/supabase';
+
+export default function App() {
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    const getTodos = async () => {
+      try {
+        const { data: todos, error } = await supabase.from('todos').select();
+
+        if (error) {
+          console.error('Error fetching todos:', error.message);
+          return;
+        }
+
+        if (todos && todos.length > 0) {
+          setTodos(todos);
+        }
+      } catch (error) {
+        console.error('Error fetching todos:', error.message);
+      }
+    };
+
+    getTodos();
+  }, []);
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Todo List</Text>
+      <FlatList
+        data={todos}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <Text key={item.id}>{item.title}</Text>}
+      />
+    </View>
+  );
+};
+
+
+DATABASE_URL="postgresql://postgres.rsvjnndhbyyxktbczlnk:[YOUR-PASSWORD]@aws-0-eu-west-2.pooler.supabase.com:6543/postgres"
+
+
+
+import { pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
+
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  fullName: text('full_name'),
+  phone: varchar('phone', { length: 256 }),
+});
+        
+
+
+import { drizzle } from 'drizzle-orm/postgres-js'
+import postgres from 'postgres'
+import { users } from './schema'
+
+const connectionString = process.env.DATABASE_URL
+
+// Disable prefetch as it is not supported for "Transaction" pool mode
+const client = postgres(connectionString, { prepare: false })
+const db = drizzle(client);
+
+const allUsers = await db.select().from(users);
+        
+anonpublic
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzdmpubmRoYnl5eGt0YmN6bG5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM0MDk3NzksImV4cCI6MjA1ODk4NTc3OX0.AlM_iSptGQ7G5qrJFHU9OECu1wqH6AXQP1zOU70L0T4
+
+service_rolesecret
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzdmpubmRoYnl5eGt0YmN6bG5rIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzQwOTc3OSwiZXhwIjoyMDU4OTg1Nzc5fQ.cnmSutfsHLOWHqMpgIOv5fCHBI0jZG4AN5YJSeHDsEA
+
+
+JWT Secret
+
+h3/+SKWZ1y9UYvMzt2JCGnf+j+9GJ9TGB+0lYDf3EGtyeNRtch/G+2C5zI2aV8+BEnoPpfGZyFwAkxcxV8WzoQ==
+
+Supabase
+
+Webber-Lubenham's Org
+
+Free
+
+Reno
+
+
+Connect
+
+Enable branching
+Feedback
+
+
+
+Webber-Lubenham
+
+
+
+Authentication
+Manage
+Users
+Configuration
+Policies
+Sign In / Up
+Sessions
+Rate Limits
+Emails
+Multi-Factor
+URL Configuration
+Attack Protection
+Auth Hooks
+BETA
+Advanced
+Sign In / Up
+Configure authentication providers and login methods for your users
+
+Supabase Auth
+Third Party Auth
+User Signups
+
+Allow new users to sign up
+If this is disabled, new users will not be able to sign up to your application
+
+Allow manual linking
+Enable manual linking APIs for your project
+
+Allow anonymous sign-ins
+Enable anonymous sign-ins for your project
+
+Cancel
+
+Save changes
+Auth Providers
+Authenticate your users through a suite of providers and login methods
+
+OTP expiry exceeds recommended threshold
+We have detected that you have enabled the email provider with the OTP expiry set to more than an hour. It is recommended to set this value to less than an hour.
+
+View security recommendations
+Email auth icon
+Email
+Enabled
+Phone auth icon
+Phone
+Disabled
+SAML 2.0 auth icon
+SAML 2.0
+Disabled
+Apple auth icon
+Apple
+Disabled
+Azure auth icon
+Azure
+Disabled
+Bitbucket auth icon
+Bitbucket
+Disabled
+Discord auth icon
+Discord
+Disabled
+Facebook auth icon
+Facebook
+Disabled
+Figma auth icon
+Figma
+Disabled
+GitHub auth icon
+GitHub
+Disabled
+GitLab auth icon
+GitLab
+Disabled
+Google auth icon
+Google
+Disabled
+Kakao auth icon
+Kakao
+Disabled
+KeyCloak auth icon
+KeyCloak
+Disabled
+LinkedIn (OIDC) auth icon
+LinkedIn (OIDC)
+Disabled
+Notion auth icon
+Notion
+Disabled
+Twitch auth icon
+Twitch
+Disabled
+Twitter auth icon
+Twitter
+Disabled
+Slack (OIDC) auth icon
+Slack (OIDC)
+Disabled
+Slack (Deprecated) auth icon
+Slack (Deprecated)
+Disabled
+Spotify auth icon
+Spotify
+Disabled
+WorkOS auth icon
+WorkOS
+Disabled
+Zoom auth icon
+Zoom
+Disabled
+Authentication | Supabase
+Supabase
+
+Webber-Lubenham's Org
+
+Free
+
+Reno
+
+
+Connect
+
+Enable branching
+Feedback
+
+
+
+Webber-Lubenham
+
+
+
+Settings
+Project Settings
+General
+Compute and Disk
+Infrastructure
+Integrations
+Add Ons
+Vault
+Alpha
+Configuration
+Database
+Data API
+Authentication
+Storage
+Edge Functions
+Log Drains
+Billing
+Subscription
+Usage
+Project Settings
+General settings
+Project name
+Reno
+Project ID
+rsvjnndhbyyxktbczlnk
+
+Copy
+
+Cancel
+
+Save
+Restart project
+
+Your project will not be available for a few minutes.
+
+
+Restart project
+
+Pause project
+
+Your project will not be accessible while it is paused.
+
+
+Pause project
+Project usage statistics have been moved
+
+You may view your project's usage under your organization's settings
+
+View project usage
+Custom Domains
+Present a branded experience to your users
+Custom domains are a Pro Plan add-on
+
+Paid Plans come with free vanity subdomains or Custom Domains for an additional $10/month per domain.
+
+Upgrade to Pro
+Transfer Project
+Transfer your project to a different organization.
+Transfer project to another organization
+
+To transfer projects, the owner must be a member of both the source and target organizations.
+
+
+Transfer project
+Delete Project
+Deleting this project will also remove your database.
+Make sure you have made a backup if you want to keep your data.
+
+Delete project
+General | Supabase
+Connect to your project
+Get the connection strings and environment variables for your app
+
+Connection String
+App Frameworks
+Mobile Frameworks
+ORMs
+Type
+
+URI
+Source
+
+Primary database
+Direct connection
+Ideal for applications with persistent, long-lived connections, such as those running on virtual machines or long-standing containers.
+
+postgresql://postgres:[YOUR-PASSWORD]@db.rsvjnndhbyyxktbczlnk.supabase.co:5432/postgres
+
+
+View parameters
+Suitable for long-lived, persistent connections
+Each client has a dedicated connection to Postgres
+Not IPv4 compatible
+Use Session Pooler if on a IPv4 network or purchase IPv4 add-on
+IPv4 add-on
+Pooler settings
+
+Some platforms are IPv4-only:
+Transaction pooler
+Shared Pooler
+Ideal for stateless applications like serverless functions where each interaction with Postgres is brief and isolated.
+
+postgresql://postgres.rsvjnndhbyyxktbczlnk:[YOUR-PASSWORD]@aws-0-eu-west-2.pooler.supabase.com:6543/postgres
+
+Does not support PREPARE statements
+
+
+View parameters
+Suitable for a large number of connected clients
+Pre-warmed connection pool to Postgres
+IPv4 compatible
+Transaction pooler connections are IPv4 proxied for free.
+Session pooler
+Shared Pooler
+Only recommended as an alternative to Direct Connection, when connecting via an IPv4 network.
+
+postgresql://postgres.rsvjnndhbyyxktbczlnk:[YOUR-PASSWORD]@aws-0-eu-west-2.pooler.supabase.com:5432/postgres
+
+
+View parameters
+IPv4 compatible
+Session pooler connections are IPv4 proxied for free
+Only use on a IPv4 network
+Use Direct Connection if connecting via an IPv6 network
+Close
+
+Supabase
+
+Webber-Lubenham's Org
+
+Free
+
+Reno
+
+
+Connect
+
+Enable branching
+Feedback
+
+
+
+Webber-Lubenham
+
+
+
+Settings
+Project Settings
+General
+Compute and Disk
+Infrastructure
+Integrations
+Add Ons
+Vault
+Alpha
+Configuration
+Database
+Data API
+Authentication
+Storage
+Edge Functions
+Log Drains
+Billing
+Subscription
+Usage
+Project Settings
+General settings
+Project name
+Reno
+Project ID
+rsvjnndhbyyxktbczlnk
+
+Copy
+
+Cancel
+
+Save
+Restart project
+
+Your project will not be available for a few minutes.
+
+
+Restart project
+
+Pause project
+
+Your project will not be accessible while it is paused.
+
+
+Pause project
+Project usage statistics have been moved
+
+You may view your project's usage under your organization's settings
+
+View project usage
+Custom Domains
+Present a branded experience to your users
+Custom domains are a Pro Plan add-on
+
+Paid Plans come with free vanity subdomains or Custom Domains for an additional $10/month per domain.
+
+Upgrade to Pro
+Transfer Project
+Transfer your project to a different organization.
+Transfer project to another organization
+
+To transfer projects, the owner must be a member of both the source and target organizations.
+
+
+Transfer project
+Delete Project
+Deleting this project will also remove your database.
+Make sure you have made a backup if you want to keep your data.
+
+Delete project
+General | Supabase
+Connect to your project
+Get the connection strings and environment variables for your app
+
+Connection String
+App Frameworks
+Mobile Frameworks
+ORMs
+Type
+
+Node.js
+Source
+
+Primary database
+1
+Install the following
+npm install postgres
+
+2
+Add file to project
+db.js
+import postgres from 'postgres'
+
+const connectionString = process.env.DATABASE_URL
+const sql = postgres(connectionString)
+
+export default sql
+
+3
+Choose type of connection
+Direct connection
+Ideal for applications with persistent, long-lived connections, such as those running on virtual machines or long-standing containers.
+
+.env
+DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@db.rsvjnndhbyyxktbczlnk.supabase.co:5432/postgres
+
+
+View parameters
+Suitable for long-lived, persistent connections
+Each client has a dedicated connection to Postgres
+Not IPv4 compatible
+Use Session Pooler if on a IPv4 network or purchase IPv4 add-on
+IPv4 add-on
+Pooler settings
+
+Some platforms are IPv4-only:
+Transaction pooler
+Shared Pooler
+Ideal for stateless applications like serverless functions where each interaction with Postgres is brief and isolated.
+
+.env
+DATABASE_URL=postgresql://postgres.rsvjnndhbyyxktbczlnk:[YOUR-PASSWORD]@aws-0-eu-west-2.pooler.supabase.com:6543/postgres
+
+Does not support PREPARE statements
+
+
+View parameters
+Suitable for a large number of connected clients
+Pre-warmed connection pool to Postgres
+IPv4 compatible
+Transaction pooler connections are IPv4 proxied for free.
+Session pooler
+Shared Pooler
+Only recommended as an alternative to Direct Connection, when connecting via an IPv4 network.
+
+.env
+DATABASE_URL=postgresql://postgres.rsvjnndhbyyxktbczlnk:[YOUR-PASSWORD]@aws-0-eu-west-2.pooler.supabase.com:5432/postgres
+
+
+View parameters
+IPv4 compatible
+Session pooler connections are IPv4 proxied for free
+Only use on a IPv4 network
+Use Direct Connection if connecting via an IPv6 network
+Close
+
+REACT_APP_SUPABASE_URL=https://rsvjnndhbyyxktbczlnk.supabase.co
+REACT_APP_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzdmpubmRoYnl5eGt0YmN6bG5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM0MDk3NzksImV4cCI6MjA1ODk4NTc3OX0.AlM_iSptGQ7G5qrJFHU9OECu1wqH6AXQP1zOU70L0T4
+        
+
+
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
+
+export const supabase = createClient(supabaseUrl, supabaseKey);
+        
+
+
+import { useState, useEffect } from 'react'
+import { supabase } from '../utils/supabase'
+
+function Page() {
+  const [todos, setTodos] = useState([])
+
+  useEffect(() => {
+    function getTodos() {
+      const { data: todos } = await supabase.from('todos').select()
+
+      if (todos.length > 1) {
+        setTodos(todos)
+      }
+    }
+
+    getTodos()
+  }, [])
+
+  return (
+    <div>
+      {todos.map((todo) => (
+        <li key={todo}>{todo}</li>
+      ))}
+    </div>
+  )
+}
+export default Page
+
+mapbox
+#PX@29%jJ2S3L7v
+
+5jbW3mEvPs4KQjN
