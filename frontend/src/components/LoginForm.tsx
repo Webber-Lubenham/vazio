@@ -2,7 +2,17 @@ import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { apiService } from '../services/api.service';
 
-export const LoginForm: React.FC = () => {
+export const LoginForm = () => {
+  const classes = {
+    container: 'max-w-md mx-auto',
+    card: 'card',
+    formGroup: 'form-group',
+    formLabel: 'form-label',
+    formInput: 'form-input',
+    button: 'btn w-full',
+    link: 'link block text-center mt-4'
+  };
+
   const { updateUserFromToken } = useAuth();
   const [email, setEmail] = useState('franklinmarceloferreiradelima@gmail.com');
   const [password, setPassword] = useState('@#$Franklin123');
@@ -18,17 +28,25 @@ export const LoginForm: React.FC = () => {
     setLoading(true);
 
     try {
-      // Tenta login via API backend em vez do Supabase diretamente
+      // Realiza o login via API
       const { data, error } = await apiService.auth.login(email, password);
       
       if (error) {
         throw new Error(error);
       }
       
-      if (data) {
-        // Login bem-sucedido - atualiza o contexto de autenticação
+      if (data && data.token) {
+        // Salva o token no localStorage
+        localStorage.setItem('auth_token', data.token);
+        
+        // Atualiza o contexto de autenticação
+        updateUserFromToken(data.token);
+        
+        // Redireciona para a página inicial
         setSuccess(true);
-        window.location.href = '/'; // Redireciona para a página inicial
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1000);
       }
     } catch (err: any) {
       setError(err.message || 'Ocorreu um erro durante o login');
@@ -127,68 +145,44 @@ export const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+    <div className="flex-center min-h-screen">
+      <div className="card">
+        <h2 className="h2 text-center">
           Sistema de Monitoramento
         </h2>
-        <h3 className="mt-2 text-center text-xl leading-9 tracking-tight text-gray-600">
+        <p className="p text-center">
           Faça login na sua conta
-        </h3>
-      </div>
+        </p>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-              Email
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
+          <div className={classes.formGroup}>
+            <label className={classes.formLabel}>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={classes.formInput}
+            />
           </div>
 
-          <div>
-            <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                Senha
-              </label>
-              <div className="text-sm">
-                <button
-                  type="button"
-                  onClick={handleForgotPassword}
-                  className="font-semibold text-indigo-600 hover:text-indigo-500"
-                >
-                  Esqueceu a senha?
-                </button>
-              </div>
-            </div>
-            <div className="mt-2">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="@#$Franklin123"
-              />
-            </div>
+          <div className={classes.formGroup}>
+            <label className={classes.formLabel}>Senha</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={classes.formInput}
+            />
+            <a
+              href="#"
+              className="link text-center"
+            >
+              Esqueceu a senha?
+            </a>
           </div>
 
           {error && (
-            <div className="bg-red-50 p-4 rounded-md">
+            <div className="alert alert-error">
               <div className="flex">
                 <div className="text-sm text-red-700">{error}</div>
               </div>
@@ -216,8 +210,8 @@ export const LoginForm: React.FC = () => {
           <div className="flex flex-col space-y-3">
             <button
               type="submit"
+              className="btn w-full"
               disabled={loading}
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-400"
             >
               {loading ? "Entrando..." : "Entrar com senha"}
             </button>
@@ -252,7 +246,7 @@ export const LoginForm: React.FC = () => {
             {devMode && (
               <div className="mt-4 p-3 border border-yellow-300 bg-yellow-50 rounded-md">
                 <p className="text-xs text-yellow-800 mb-3">Ferramentas de desenvolvimento. Somente use em ambiente de teste.</p>
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col gap-4">
                   <button
                     type="button"
                     onClick={handleResetDevPassword}

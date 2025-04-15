@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = process.env.PORT || 3004;
+const PORT = 3004; //process.env.PORT || 3004;
 const JWT_SECRET = process.env.JWT_SECRET || 'sua_chave_secreta_temporaria';
 
 // Middleware

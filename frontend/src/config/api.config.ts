@@ -1,7 +1,9 @@
+import { createClient } from '@supabase/supabase-js';
+
 // Configurações de API para o projeto
 export const API_CONFIG = {
   // URL base da API
-  BASE_URL: 'http://localhost:3003/api',
+  BASE_URL: '/api',
   
   // Rotas de autenticação
   AUTH: {
@@ -30,3 +32,9 @@ export const API_CONFIG = {
     DELETE: (id: string) => `/locations/${id}`
   }
 };
+
+// Configuração do Supabase
+export const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);

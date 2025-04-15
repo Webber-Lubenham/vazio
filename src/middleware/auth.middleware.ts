@@ -29,27 +29,43 @@ export async function authenticateToken(
     const token = authHeader && authHeader.split(' ')[1];
 
     if (!token) {
-      return res.status(401).json({ error: 'Token não fornecido' });
+      return res.status(401).json({ 
+        success: false,
+        error: 'Token não fornecido' 
+      });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
-    
-    const [user] = await db.select()
-      .from(users)
-      .where(eq(users.id, decoded.userId));
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+      
+      const [user] = await db.select()
+        .from(users)
+        .where(eq(users.id, decoded.userId));
 
-    if (!user) {
-      return res.status(401).json({ error: 'Usuário não encontrado' });
+      if (!user) {
+        return res.status(401).json({ 
+          success: false,
+          error: 'Usuário não encontrado' 
+        });
+      }
+
+      req.user = {
+        id: user.id,
+        role: user.role,
+      };
+
+      next();
+    } catch (jwtError) {
+      return res.status(401).json({ 
+        success: false,
+        error: 'Token inválido' 
+      });
     }
-
-    req.user = {
-      id: user.id,
-      role: user.role,
-    };
-
-    next();
   } catch (error) {
-    return res.status(401).json({ error: 'Token inválido' });
+    res.status(401).json({ 
+      success: false,
+      error: 'Erro de autenticação' 
+    });
   }
 }
 

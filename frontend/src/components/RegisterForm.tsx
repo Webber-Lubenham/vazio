@@ -2,7 +2,17 @@ import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { apiService } from '../services/api.service';
 
-export const RegisterForm: React.FC = () => {
+export const RegisterForm = () => {
+  const classes = {
+    container: 'max-w-md mx-auto',
+    card: 'card',
+    formGroup: 'form-group',
+    formLabel: 'form-label',
+    formInput: 'form-input',
+    button: 'btn w-full',
+    link: 'link block text-center mt-4'
+  };
+
   const { updateUserFromToken } = useAuth();
   
   // Estados para os campos do formulário
@@ -93,129 +103,115 @@ export const RegisterForm: React.FC = () => {
   };
 
   return (
-    <div className="register-form-container">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Cadastro de Estudante</h2>
+    <div className="flex-center min-h-screen">
+      <div className="card">
+        <h2 className="h2 text-center">Cadastro de Estudante</h2>
         
         {success ? (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+          <div className="alert alert-success">
             <p>Cadastro realizado com sucesso! Redirecionando...</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
             {error && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+              <div className="alert alert-error">
                 <p>{error}</p>
               </div>
             )}
             
             <div className="mb-4">
-              <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
-                Nome completo *
-              </label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
+              <div className={classes.formGroup}>
+                <label className={classes.formLabel}>Nome completo *</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className={classes.formInput}
+                />
+              </div>
             </div>
             
             <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
-                Email *
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
+              <div className={classes.formGroup}>
+                <label className={classes.formLabel}>Email *</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={classes.formInput}
+                />
+              </div>
             </div>
             
             <div className="mb-4">
-              <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">
-                Senha *
-              </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                minLength={6}
-                required
-              />
+              <div className={classes.formGroup}>
+                <label className={classes.formLabel}>Senha *</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={classes.formInput}
+                />
+              </div>
               <p className="text-xs text-gray-500 mt-1">Mínimo de 6 caracteres</p>
             </div>
             
             <div className="mb-4">
-              <label htmlFor="confirmPassword" className="block text-gray-700 text-sm font-bold mb-2">
-                Confirmar senha *
-              </label>
-              <input
-                type="password"
-                id="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
+              <div className={classes.formGroup}>
+                <label className={classes.formLabel}>Confirmar senha *</label>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className={classes.formInput}
+                />
+              </div>
             </div>
             
             <div className="mb-4">
-              <label htmlFor="school" className="block text-gray-700 text-sm font-bold mb-2">
-                Escola *
-              </label>
-              <input
-                type="text"
-                id="school"
-                value={school}
-                onChange={(e) => setSchool(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
+              <div className={classes.formGroup}>
+                <label className={classes.formLabel}>Escola *</label>
+                <input
+                  type="text"
+                  value={school}
+                  onChange={(e) => setSchool(e.target.value)}
+                  className={classes.formInput}
+                />
+              </div>
             </div>
             
             <div className="mb-4">
-              <label htmlFor="grade" className="block text-gray-700 text-sm font-bold mb-2">
-                Série/Ano *
-              </label>
-              <select
-                id="grade"
-                value={grade}
-                onChange={(e) => setGrade(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              >
-                <option value="">Selecione uma série</option>
-                {gradeOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+              <div className={classes.formGroup}>
+                <label className={classes.formLabel}>Série/Ano *</label>
+                <select
+                  value={grade}
+                  onChange={(e) => setGrade(e.target.value)}
+                  className={classes.formInput}
+                >
+                  <option value="">Selecione uma série</option>
+                  {gradeOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
             
             <div className="mb-6">
-              <label htmlFor="parentEmail" className="block text-gray-700 text-sm font-bold mb-2">
-                Email do responsável
-              </label>
-              <input
-                type="email"
-                id="parentEmail"
-                value={parentEmail}
-                onChange={(e) => setParentEmail(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              <div className={classes.formGroup}>
+                <label className={classes.formLabel}>Email do responsável</label>
+                <input
+                  type="email"
+                  value={parentEmail}
+                  onChange={(e) => setParentEmail(e.target.value)}
+                  className={classes.formInput}
+                />
+              </div>
               <p className="text-xs text-gray-500 mt-1">Opcional</p>
             </div>
             
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-4">
               <button
                 type="submit"
                 disabled={loading}
@@ -223,16 +219,25 @@ export const RegisterForm: React.FC = () => {
                   loading ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
-                {loading ? 'Cadastrando...' : 'Cadastrar'}
+                {loading ? (
+                  <>
+                    <span className="loading"></span>
+                    Cadastrando...
+                  </>
+                ) : "Cadastrar"}
               </button>
             </div>
             
             <div className="mt-4 text-center">
               <p className="text-sm text-gray-600">
                 Já tem uma conta?{' '}
-                <a href="/login" className="text-blue-500 hover:text-blue-600">
+                <button
+                  type="submit"
+                  className="btn w-full"
+                  disabled={loading}
+                >
                   Faça login
-                </a>
+                </button>
               </p>
             </div>
           </form>

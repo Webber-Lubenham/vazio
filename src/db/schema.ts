@@ -10,6 +10,7 @@ export const UserRole = {
 // Tabela de usuários
 export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
+  user_id: uuid('user_id').defaultRandom(), // Adicionando user_id para manter compatibilidade com Supabase
   email: text('email').notNull().unique(),
   password: text('password').notNull(),
   fullName: text('full_name').notNull(),
@@ -22,6 +23,7 @@ export const users = pgTable('users', {
 }, (table) => ({
   emailIdx: index('email_idx').on(table.email),
   roleIdx: index('role_idx').on(table.role),
+  userIdx: index('user_id_idx').on(table.user_id),
 }));
 
 // Tabela de links entre alunos e responsáveis

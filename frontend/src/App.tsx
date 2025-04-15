@@ -3,7 +3,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { LoginPage } from './pages/LoginPage';
 import { HomePage } from './pages/HomePage';
 import RegisterPage from './pages/RegisterPage';
-import './App.css'
+import './styles.css';
 
 // Componente para proteger rotas que requerem autenticação
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {

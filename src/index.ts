@@ -1,28 +1,26 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-// Removidas importações não utilizadas
-// Removed unused imports from './db/schema'
 import jwt from 'jsonwebtoken';
-// Removida importação não utilizada
-import dotenv from 'dotenv';
 import helmet from 'helmet';
 import { rateLimit } from 'express-rate-limit';
-// Removed unused imports from './middleware/auth.middleware'
-import { errorHandler } from './middleware/errorHandler';
-import { logger } from './utils/logger';
-import authRoutes from './routes/auth.routes';
-import userRoutes from './routes/user.routes';
-import { locationRoutes } from './routes/location.routes';
-import developmentRoutes from './routes/development.routes';
 import path from 'path';
 import swaggerUi from 'swagger-ui-express';
 import * as swaggerDocument from './swagger-output.json';
 
-dotenv.config();
-
+// Initialize express app
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3004;
+
+// Import routes after app initialization
+import authRoutes from './routes/auth.routes';
+import userRoutes from './routes/user.routes';
+import { locationRoutes } from './routes/location.routes';
+import developmentRoutes from './routes/development.routes';
+
+// Import middleware after app initialization
+import { errorHandler } from './middleware/errorHandler';
+import { logger } from './utils/logger';
 
 // Middleware
 app.use(helmet({
@@ -46,15 +44,33 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// Removed unused Supabase configuration
-
 // Configuração do Drizzle
-// Removed unused 'connectionString' declaration
-// Removed unused 'client' declaration
-// Removed unused 'db' declaration
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
+import * as schema from './db/schema';
+
+const db = drizzle(postgres(process.env.DATABASE_URL!));
 
 // Configuração do Nodemailer para recuperação de senha
-// Removed unused 'transporter' declaration
+import nodemailer from 'nodemailer';
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: parseInt(process.env.SMTP_PORT!),
+  secure: false,
+  auth: {
+    user: process.env.SMTP_USERNAME,
+    pass: process.env.SMTP_PASSWORD
+  }
+});
+
+// Configuração do Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// Rotas
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/locations', locationRoutes);
+app.use('/dev', developmentRoutes);
 
 // Rotas públicas e de desenvolvimento (não precisam de autenticação)
 app.use('/api/auth', authRoutes);
@@ -87,6 +103,9 @@ app.use(authMiddleware);
 // Rotas protegidas (precisam de autenticação)
 app.use('/api/users', userRoutes);
 app.use('/api/locations', locationRoutes);
+
+// Configuração de erros
+app.use(errorHandler);
 
 // Swagger documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
