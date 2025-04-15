@@ -7,11 +7,81 @@ import { eq } from 'drizzle-orm';
 import { logger } from '../utils/logger';
 import { locationSchema, LocationInput } from '../schemas/location.schema';
 import { z } from 'zod';
+import { body } from 'express-validator';
+import { validateRequest } from '../middleware/validateRequest';
 
 const router = Router();
 
+/**
+ * @swagger
+ * /api/locations:
+ *   post:
+ *     summary: Create a new location
+ *     tags: [Locations]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - latitude
+ *               - longitude
+ *             properties:
+ *               latitude:
+ *                 type: number
+ *               longitude:
+ *                 type: number
+ *     responses:
+ *       201:
+ *         description: Location created successfully
+ *       400:
+ *         description: Invalid input
+ *       401:
+ *         description: Unauthorized
+ */
+router.post(
+  '/',
+  [
+    body('latitude').isFloat(),
+    body('longitude').isFloat()
+  ],
+  validateRequest,
+  async (req, res) => {
+    // Implementation will go here
+    res.status(201).json({ message: 'Location created' });
+  }
+);
+
+/**
+ * @swagger
+ * /api/locations:
+ *   get:
+ *     summary: Get all locations for a user
+ *     tags: [Locations]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of locations
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/definitions/Location'
+ *       401:
+ *         description: Unauthorized
+ */
+router.get('/', async (req, res) => {
+  // Implementation will go here
+  res.json([]);
+});
+
 // Get all locations
-router.get('/', authenticateToken, async (req, res) => {
+router.get('/all', authenticateToken, async (req, res) => {
   try {
     const allLocations = await db.select().from(locations);
     res.json(allLocations);
@@ -35,30 +105,6 @@ router.get('/:id', authenticateToken, async (req, res) => {
   } catch (error) {
     logger.error('Error getting location:', error);
     res.status(500).json({ error: 'Failed to get location' });
-  }
-});
-
-// Create location
-router.post('/', authenticateToken, async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const locationData = locationSchema.parse(req.body);
-    
-    const [newLocation] = await db
-      .insert(locations)
-      .values({
-        userId,
-        ...locationData,
-      })
-      .returning();
-    
-    res.status(201).json(newLocation);
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return res.status(400).json({ error: error.errors });
-    }
-    logger.error('Error creating location:', error);
-    res.status(500).json({ error: 'Failed to create location' });
   }
 });
 

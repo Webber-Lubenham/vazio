@@ -1,0 +1,452 @@
+Pular para o conteúdo principal
+Logotipo do Firebase
+Visão geral do projeto
+O que há de novo
+App Distribution
+Novo
+Genkit
+Novo
+Vertex AI
+Novo
+Categorias dos produtos
+Criação
+Executar
+Analytics
+AI
+Todos os produtos
+Ferramentas de desenvolvimento relacionadas
+Firebase Studio
+Checks
+Plano de faturamento:Spark
+Sem custos (US$ 0/mês)
+
+search
+search
+Teste um app de exemplo do Gemini 2.0.
+ … 
+Teste um app de exemplo com tecnologia de IA para saber mais sobre a API Gemini e como ela funciona
+
+Acelere o desenvolvimento de apps
+
+Authentication
+Uma solução de identidade de usuário completa em menos de 10 linhas de código
+
+Cloud Firestore
+Atualizações em tempo real, consultas eficientes e escalonamento automático
+
+Storage
+Armazenar e recuperar conteúdo gerado pelo usuário
+
+Hosting
+Implantar apps da Web em segundos
+Veja todos os recursos de Criação
+Execute e otimize seu app com confiança
+
+Crashlytics
+Rastreie, priorize e corrija problemas de estabilidade que afetam a qualidade do app, em tempo real.
+
+Performance
+Receber insights sobre o desempenho do seu app
+
+Cloud Messaging
+Infraestrutura de mensagens push multiplataforma entre seus servidores e dispositivos de usuários
+
+Remote Config
+Lance novos recursos no seu app com segurança e no seu ritmo sem implantar uma nova versão
+Veja todos os recursos de Executar
+Crie recursos com tecnologia de IA para seu app
+
+Genkit
+Crie e implante recursos de IA do lado do servidor usando os modelos de IA generativa e os serviços de nuvem do Google com os dados da sua empresa
+
+Vertex AI
+Chame APIs de IA generativa diretamente do seu app para dispositivos móveis ou da Web sem configurar um back-end
+Veja todos os recursos de IA
+Implante recursos estendidos no seu app com rapidez
+
+Extensions
+Soluções padronizadas que economizam seu tempo
+Ver todos os recursos do Firebase
+Concluindo…
+Teste o novo Agente de Teste de Apps (pré-lançamento)!
+O Genkit para Node.js está disponível para todos os usuários
+Gere imagens usando modelos do Imagen 3
+Teste o novo Agente de Teste de Apps (pré-lançamento)!
+O Genkit para Node.js está disponível para todos os usuários
+Gere imagens usando modelos do Imagen 3
+Clique em "Fazer upgrade" para saber como ganhar um crédito gratuito de US$ 300.
+Acessar a documentação
+Adicionar o Firebase ao seu app da Web
+Completed
+Registrar app
+2
+Adicionar o SDK do Firebase
+
+Usar o npm
+
+Usar a tag <script>
+Se você já estiver usando o npm e um bundler de módulos, como webpack ou Rollup, execute o seguinte comando para instalar o SDK mais recente (Saiba mais):
+
+npm install firebase
+Depois inicialize o Firebase e comece a usar os SDKs dos produtos.
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDwGcWcy7VeOJYm2VvZ2P8OJmZLN7AQVxk",
+  authDomain: "search-4295b.firebaseapp.com",
+  projectId: "search-4295b",
+  storageBucket: "search-4295b.firebasestorage.app",
+  messagingSenderId: "839810161956",
+  appId: "1:839810161956:web:0b964a3d5f5bccaaeae7b1"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+Observação: essa opção usa o SDK modular para JavaScript , que reduz o tamanho do SDK.
+
+Saiba mais sobre o Firebase para Web: Vamos começar, Referência da API Web SDK, Amostras
+
+3
+Instalar a CLI do Firebase
+
+
+4
+Implantar no Firebase Hosting
+
+
+
+
+
+
+
+
+Pular para o conteúdo principal
+Logotipo do Firebase
+Visão geral do projeto
+O que há de novo
+App Distribution
+Novo
+Genkit
+Novo
+Vertex AI
+Novo
+Categorias dos produtos
+Criação
+Executar
+Analytics
+AI
+Todos os produtos
+Ferramentas de desenvolvimento relacionadas
+Firebase Studio
+Checks
+Plano de faturamento:Spark
+Sem custos (US$ 0/mês)
+
+search
+search
+Teste um app de exemplo do Gemini 2.0.
+ … 
+Teste um app de exemplo com tecnologia de IA para saber mais sobre a API Gemini e como ela funciona
+
+Acelere o desenvolvimento de apps
+
+Authentication
+Uma solução de identidade de usuário completa em menos de 10 linhas de código
+
+Cloud Firestore
+Atualizações em tempo real, consultas eficientes e escalonamento automático
+
+Storage
+Armazenar e recuperar conteúdo gerado pelo usuário
+
+Hosting
+Implantar apps da Web em segundos
+Veja todos os recursos de Criação
+Execute e otimize seu app com confiança
+
+Crashlytics
+Rastreie, priorize e corrija problemas de estabilidade que afetam a qualidade do app, em tempo real.
+
+Performance
+Receber insights sobre o desempenho do seu app
+
+Cloud Messaging
+Infraestrutura de mensagens push multiplataforma entre seus servidores e dispositivos de usuários
+
+Remote Config
+Lance novos recursos no seu app com segurança e no seu ritmo sem implantar uma nova versão
+Veja todos os recursos de Executar
+Crie recursos com tecnologia de IA para seu app
+
+Genkit
+Crie e implante recursos de IA do lado do servidor usando os modelos de IA generativa e os serviços de nuvem do Google com os dados da sua empresa
+
+Vertex AI
+Chame APIs de IA generativa diretamente do seu app para dispositivos móveis ou da Web sem configurar um back-end
+Veja todos os recursos de IA
+Implante recursos estendidos no seu app com rapidez
+
+Extensions
+Soluções padronizadas que economizam seu tempo
+Ver todos os recursos do Firebase
+Concluindo…
+Teste o novo Agente de Teste de Apps (pré-lançamento)!
+O Genkit para Node.js está disponível para todos os usuários
+Gere imagens usando modelos do Imagen 3
+Teste o novo Agente de Teste de Apps (pré-lançamento)!
+O Genkit para Node.js está disponível para todos os usuários
+Gere imagens usando modelos do Imagen 3
+Clique em "Fazer upgrade" para saber como ganhar um crédito gratuito de US$ 300.
+Acessar a documentação
+Adicionar o Firebase ao seu app da Web
+Completed
+Registrar app
+Editable
+Adicionar o SDK do Firebase
+
+
+
+
+3
+Instalar a CLI do Firebase
+Para hospedar seu site com o Firebase Hosting, é necessário usar a Firebase CLI (uma ferramenta de linha de comando).
+
+Execute o seguinte comando do npm para instalar a CLI ou atualizar para a versão mais recente da CLI.
+
+npm install -g firebase-tools
+Não está funcionando? Consulte a referência da Firebase CLI ou altere suas permissões de npm
+4
+Implantar no Firebase Hosting
+
+
+
+
+
+
+
+
+Pular para o conteúdo principal
+Logotipo do Firebase
+Visão geral do projeto
+O que há de novo
+App Distribution
+Novo
+Genkit
+Novo
+Vertex AI
+Novo
+Categorias dos produtos
+Criação
+Executar
+Analytics
+AI
+Todos os produtos
+Ferramentas de desenvolvimento relacionadas
+Firebase Studio
+Checks
+Plano de faturamento:Spark
+Sem custos (US$ 0/mês)
+
+search
+search
+Teste um app de exemplo do Gemini 2.0.
+ … 
+Teste um app de exemplo com tecnologia de IA para saber mais sobre a API Gemini e como ela funciona
+
+Acelere o desenvolvimento de apps
+
+Authentication
+Uma solução de identidade de usuário completa em menos de 10 linhas de código
+
+Cloud Firestore
+Atualizações em tempo real, consultas eficientes e escalonamento automático
+
+Storage
+Armazenar e recuperar conteúdo gerado pelo usuário
+
+Hosting
+Implantar apps da Web em segundos
+Veja todos os recursos de Criação
+Execute e otimize seu app com confiança
+
+Crashlytics
+Rastreie, priorize e corrija problemas de estabilidade que afetam a qualidade do app, em tempo real.
+
+Performance
+Receber insights sobre o desempenho do seu app
+
+Cloud Messaging
+Infraestrutura de mensagens push multiplataforma entre seus servidores e dispositivos de usuários
+
+Remote Config
+Lance novos recursos no seu app com segurança e no seu ritmo sem implantar uma nova versão
+Veja todos os recursos de Executar
+Crie recursos com tecnologia de IA para seu app
+
+Genkit
+Crie e implante recursos de IA do lado do servidor usando os modelos de IA generativa e os serviços de nuvem do Google com os dados da sua empresa
+
+Vertex AI
+Chame APIs de IA generativa diretamente do seu app para dispositivos móveis ou da Web sem configurar um back-end
+Veja todos os recursos de IA
+Implante recursos estendidos no seu app com rapidez
+
+Extensions
+Soluções padronizadas que economizam seu tempo
+Ver todos os recursos do Firebase
+Concluindo…
+Teste o novo Agente de Teste de Apps (pré-lançamento)!
+O Genkit para Node.js está disponível para todos os usuários
+Gere imagens usando modelos do Imagen 3
+Teste o novo Agente de Teste de Apps (pré-lançamento)!
+O Genkit para Node.js está disponível para todos os usuários
+Gere imagens usando modelos do Imagen 3
+Clique em "Fazer upgrade" para saber como ganhar um crédito gratuito de US$ 300.
+Acessar a documentação
+Adicionar o Firebase ao seu app da Web
+Completed
+Registrar app
+Editable
+Adicionar o SDK do Firebase
+
+
+
+
+Editable
+Instalar a CLI do Firebase
+
+
+4
+Implantar no Firebase Hosting
+É possível implantar agora ou depois. Para implantar agora, abra uma janela de terminal e navegue ou crie um diretório raiz a partir do seu app da Web.
+
+Faça login no Google
+firebase login
+Iniciar seu projeto
+Execute este comando do diretório raiz do seu app:
+
+firebase init
+Especifique seu site no firebase.json
+Adicione o ID do seu site ao arquivo de configuração firebase.json. Após a configuração, consulte as práticas recomendadas para uma implantação de vários sites.
+
+{
+  "hosting": {
+    "site": "search-4295b-26b4b",
+
+    "public": "public",
+    ...
+  }
+}
+Quando tudo estiver pronto, implante seu app da Web
+Inclua seus arquivos estáticos (por exemplo, HTML, CSS, JS) no diretório de implantação do app (o padrão é "público"). Em seguida, execute este comando no diretório raiz dele:
+
+firebase deploy --only hosting:search-4295b-26b4b
+Após a implantação, confira seu app em search-4295b-26b4b.web.app
+
+Precisa de ajuda? Confira a documentação do Hosting
+
+
+
+Pular para o conteúdo principal
+Logotipo do Firebase
+Visão geral do projeto
+Atalhos do projeto
+Authentication
+O que há de novo
+App Distribution
+Novo
+Genkit
+Novo
+Vertex AI
+Novo
+Categorias dos produtos
+Criação
+Executar
+Analytics
+AI
+Todos os produtos
+Ferramentas de desenvolvimento relacionadas
+Firebase Studio
+Checks
+Plano de faturamento:Spark
+Sem custos (US$ 0/mês)
+
+search
+Configurações do projeto
+Configurações do projeto
+Geral
+Cloud Messaging
+Integrações
+Contas de serviço
+Privacidade dos dados
+Usuários e permissões
+Seu projeto
+Nome do projeto
+search
+ID do projeto
+search-4295b
+Número do projeto
+839810161956
+Chave de API da Web
+AIzaSyDwGcWcy7VeOJYm2VvZ2P8OJmZLN7AQVxk
+Ambiente
+Esta configuração personaliza o projeto para diferentes fases do ciclo de vida do app
+Tipo de ambiente
+Não especificado
+Seus aplicativos
+Apps da Web
+reasearch
+App da Web
+Apelido do app
+reasearch
+ID do aplicativo
+1:839810161956:web:0b964a3d5f5bccaaeae7b1
+Site do Firebase Hosting vinculado
+search-4295b-26b4b
+
+Configuração do SDK
+
+NPM
+
+CDN
+
+Config
+Se você já estiver usando o npm e um bundler de módulos, como webpack ou Rollup, execute o seguinte comando para instalar o SDK mais recente (saiba mais):
+
+npm install firebase
+Depois inicialize o Firebase e comece a usar os SDKs dos produtos.
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDwGcWcy7VeOJYm2VvZ2P8OJmZLN7AQVxk",
+  authDomain: "search-4295b.firebaseapp.com",
+  projectId: "search-4295b",
+  storageBucket: "search-4295b.firebasestorage.app",
+  messagingSenderId: "839810161956",
+  appId: "1:839810161956:web:0b964a3d5f5bccaaeae7b1"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+Observação: essa opção usa o SDK modular para JavaScript, que reduz o tamanho do SDK.
+
+Saiba mais sobre o Firebase para Web: Vamos começar, Referência da API Web SDK, Amostras
+
+Concluindo…
+Teste o novo Agente de Teste de Apps (pré-lançamento)!
+O Genkit para Node.js está disponível para todos os usuários
+Gere imagens usando modelos do Imagen 3
+Teste o novo Agente de Teste de Apps (pré-lançamento)!
+O Genkit para Node.js está disponível para todos os usuários
+Gere imagens usando modelos do Imagen 3
+Clique em "Fazer upgrade" para saber como ganhar um crédito gratuito de US$ 300.

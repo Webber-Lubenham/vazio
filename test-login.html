@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teste de Login - Supabase</title>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+    .success {
+      color: green;
+      margin-top: 10px;
+    }
+    #user-info {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      white-space: pre-wrap;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Teste de Login - Supabase</h1>
+  
+  <div id="login-form">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" value="franklinmarceloferreiradelima@gmail.com">
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Senha:</label>
+      <input type="password" id="password" placeholder="Digite sua senha">
+    </div>
+    
+    <button id="login-btn">Login</button>
+    <div id="error-message" class="error hidden"></div>
+    <div id="success-message" class="success hidden"></div>
+  </div>
+  
+  <div id="user-container" class="hidden">
+    <h2>Usuário logado</h2>
+    <button id="logout-btn">Logout</button>
+    <pre id="user-info"></pre>
+  </div>
+
+  <script>
+    // Inicializando o cliente Supabase
+    const supabaseUrl = 'https://rsvjnndhbyyxktbczlnk.supabase.co';
+    const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzdmpubmRoYnl5eGt0YmN6bG5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM0MDk3NzksImV4cCI6MjA1ODk4NTc3OX0.AlM_iSptGQ7G5qrJFHU9OECu1wqH6AXQP1zOU70L0T4';
+    const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
+
+    // Elementos do DOM
+    const loginForm = document.getElementById('login-form');
+    const userContainer = document.getElementById('user-container');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const errorMessage = document.getElementById('error-message');
+    const successMessage = document.getElementById('success-message');
+    const userInfo = document.getElementById('user-info');
+
+    // Verificar se existe uma sessão ativa
+    checkSession();
+
+    async function checkSession() {
+      const { data, error } = await supabase.auth.getSession();
+      
+      if (data?.session) {
+        // Usuário já está logado
+        displayUserInfo(data.session.user);
+      }
+    }
+
+    // Evento de login
+    loginBtn.addEventListener('click', async () => {
+      const email = emailInput.value;
+      const password = passwordInput.value;
+      
+      if (!email || !password) {
+        showError('Por favor, preencha todos os campos');
+        return;
+      }
+      
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+        
+        if (error) {
+          showError(error.message);
+          return;
+        }
+        
+        showSuccess('Login realizado com sucesso!');
+        displayUserInfo(data.user);
+      } catch (err) {
+        showError('Erro ao realizar login. Tente novamente.');
+        console.error(err);
+      }
+    });
+
+    // Evento de logout
+    logoutBtn.addEventListener('click', async () => {
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        showError(error.message);
+        return;
+      }
+      
+      hideUserInfo();
+      showSuccess('Logout realizado com sucesso!');
+    });
+
+    // Funções auxiliares
+    function displayUserInfo(user) {
+      userInfo.textContent = JSON.stringify(user, null, 2);
+      loginForm.classList.add('hidden');
+      userContainer.classList.remove('hidden');
+    }
+
+    function hideUserInfo() {
+      userContainer.classList.add('hidden');
+      loginForm.classList.remove('hidden');
+      passwordInput.value = '';
+    }
+
+    function showError(message) {
+      errorMessage.textContent = message;
+      errorMessage.classList.remove('hidden');
+      successMessage.classList.add('hidden');
+      
+      setTimeout(() => {
+        errorMessage.classList.add('hidden');
+      }, 5000);
+    }
+
+    function showSuccess(message) {
+      successMessage.textContent = message;
+      successMessage.classList.remove('hidden');
+      errorMessage.classList.add('hidden');
+      
+      setTimeout(() => {
+        successMessage.classList.add('hidden');
+      }, 5000);
+    }
+  </script>
+</body>
+</html>

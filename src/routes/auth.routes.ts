@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { body } from 'express-validator';
 import { validateRequest } from '../middleware/validateRequest';
 import { login, register, logout, refreshToken } from '../controllers/auth.controller';
-import { authenticateToken } from '../middleware/auth';
+import { authenticateToken } from '../middleware/auth.middleware';
 
 const router = Router();
 
@@ -32,4 +32,4 @@ router.post(
 router.post('/logout', authenticateToken, logout);
 router.post('/refresh-token', refreshToken);
 
-export default router; 
+export default router;

@@ -1,35 +1,55 @@
-import swaggerJsdoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
-import { Express } from 'express';
+import swaggerAutogen from 'swagger-autogen';
 
-const options: swaggerJsdoc.Options = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Vazio API',
-      version: '1.0.0',
-      description: 'API documentation for Vazio application',
-    },
-    servers: [
-      {
-        url: 'http://localhost:3000',
-        description: 'Development server',
-      },
-    ],
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
-        },
-      },
-    },
+const doc = {
+  info: {
+    title: 'Vazio API',
+    description: 'API para sistema de monitoramento de localização',
+    version: '1.0.0'
   },
-  apis: ['./src/routes/*.ts', './src/models/*.ts'],
+  host: 'localhost:3000',
+  schemes: ['http'],
+  consumes: ['application/json'],
+  produces: ['application/json'],
+  securityDefinitions: {
+    bearerAuth: {
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT'
+    }
+  },
+  definitions: {
+    User: {
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        email: { type: 'string' },
+        fullName: { type: 'string' },
+        role: { type: 'string', enum: ['RESPONSIBLE', 'DEPENDENT'] },
+        createdAt: { type: 'string', format: 'date-time' },
+        updatedAt: { type: 'string', format: 'date-time' }
+      }
+    },
+    Location: {
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        userId: { type: 'string' },
+        latitude: { type: 'number' },
+        longitude: { type: 'number' },
+        timestamp: { type: 'string', format: 'date-time' }
+      }
+    },
+    Error: {
+      type: 'object',
+      properties: {
+        message: { type: 'string' },
+        code: { type: 'string' }
+      }
+    }
+  }
 };
 
-export const setupSwagger = (app: Express) => {
-  const specs = swaggerJsdoc(options);
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-}; 
+const outputFile = './swagger-output.json';
+const endpointsFiles = ['./src/routes/*.ts'];
+
+swaggerAutogen()(outputFile, endpointsFiles, doc); 
