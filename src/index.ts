@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import { createClient } from '@supabase/supabase-js';
@@ -14,20 +15,32 @@ import { rateLimit } from 'express-rate-limit';
 import { AuthService } from './services/auth.service';
 import { authenticateToken, authorizeRole } from './middleware/auth.middleware';
 import { UserRole } from './types/auth';
+import { setupSwagger } from './swagger';
+import { errorHandler } from './middleware/errorHandler';
+import { logger } from './utils/logger';
+import { authRoutes } from './routes/auth.routes';
+import { userRoutes } from './routes/user.routes';
+import { locationRoutes } from './routes/location.routes';
+import { transporter } from './config/email';
+import path from 'path';
 
 dotenv.config();
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
+// Serve static files
+app.use(express.static(path.join(__dirname, '../public')));
+
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // Limite de 100 requisições por IP
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
 });
 app.use(limiter);
 
@@ -67,132 +80,18 @@ const authenticate = async (req: any, res: any, next: any) => {
   }
 };
 
-// Rotas públicas
-app.post('/auth/register', async (req, res) => {
-  try {
-    const result = await AuthService.register(req.body);
-    res.status(201).json(result);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/locations', locationRoutes);
 
-app.post('/auth/login', async (req, res) => {
-  try {
-    const result = await AuthService.login(req.body);
-    res.json(result);
-  } catch (error) {
-    res.status(401).json({ error: error.message });
-  }
-});
+// Swagger documentation
+setupSwagger(app);
 
-app.post('/auth/reset-password', async (req, res) => {
-  try {
-    const result = await AuthService.requestPasswordReset(req.body);
-    res.json(result);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
+// Error handling
+app.use(errorHandler);
 
-app.post('/auth/new-password', async (req, res) => {
-  try {
-    const result = await AuthService.resetPassword(req.body);
-    res.json(result);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
-
-// Rotas protegidas
-app.get('/profile', authenticateToken, async (req, res) => {
-  try {
-    res.json({ user: req.user });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Rota de teste
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok' });
-});
-
-// Rotas de localização
-app.post('/location', authenticate, async (req, res) => {
-  try {
-    const { latitude, longitude } = req.body;
-    const userId = req.user.id;
-
-    const [location] = await db.insert(locations).values({
-      userId,
-      latitude,
-      longitude,
-    }).returning();
-
-    res.status(201).json(location);
-  } catch (error) {
-    res.status(500).json({ error: 'Erro ao salvar localização' });
-  }
-});
-
-app.get('/location/:userId', authenticate, async (req, res) => {
-  try {
-    const { userId } = req.params;
-    
-    // Verificar se o usuário tem permissão (é responsável do aluno)
-    const [link] = await db.select()
-      .from(responsibleLinks)
-      .where(eq(responsibleLinks.responsavelId, req.user.id))
-      .where(eq(responsibleLinks.alunoId, userId));
-
-    if (!link && req.user.role !== 'admin') {
-      return res.status(403).json({ error: 'Acesso não autorizado' });
-    }
-
-    // Buscar última localização
-    const [location] = await db.select()
-      .from(locations)
-      .where(eq(locations.userId, userId))
-      .orderBy(locations.timestamp)
-      .limit(1);
-
-    res.json(location);
-  } catch (error) {
-    res.status(500).json({ error: 'Erro ao buscar localização' });
-  }
-});
-
-// Rotas de associação aluno-responsável
-app.post('/responsible-link', authenticate, async (req, res) => {
-  try {
-    const { alunoId } = req.body;
-    const responsavelId = req.user.id;
-
-    // Verificar se o usuário é um responsável
-    if (req.user.role !== 'responsavel') {
-      return res.status(403).json({ error: 'Apenas responsáveis podem criar associações' });
-    }
-
-    // Verificar se o aluno existe
-    const [aluno] = await db.select().from(users).where(eq(users.id, alunoId));
-    if (!aluno || aluno.role !== 'aluno') {
-      return res.status(404).json({ error: 'Aluno não encontrado' });
-    }
-
-    // Criar associação
-    const [link] = await db.insert(responsibleLinks).values({
-      alunoId,
-      responsavelId,
-    }).returning();
-
-    res.status(201).json(link);
-  } catch (error) {
-    res.status(500).json({ error: 'Erro ao criar associação' });
-  }
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+// Start server
+app.listen(port, () => {
+  logger.info(`Server is running on port ${port}`);
 }); 

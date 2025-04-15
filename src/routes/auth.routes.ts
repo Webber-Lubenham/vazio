@@ -1,55 +1,35 @@
 import { Router } from 'express';
-import { AuthService } from '../services/auth.service';
-import { authenticateToken } from '../middleware/auth.middleware';
+import { body } from 'express-validator';
+import { validateRequest } from '../middleware/validateRequest';
+import { login, register, logout, refreshToken } from '../controllers/auth.controller';
+import { authenticateToken } from '../middleware/auth';
 
 const router = Router();
 
-router.post('/register', async (req, res) => {
-  try {
-    const { email, password, name } = req.body;
-    const user = await AuthService.register(email, password, name);
-    res.status(201).json(user);
-  } catch (error: any) {
-    res.status(400).json({ error: error.message });
-  }
-});
+router.post(
+  '/register',
+  [
+    body('email').isEmail().withMessage('Please provide a valid email'),
+    body('password')
+      .isLength({ min: 6 })
+      .withMessage('Password must be at least 6 characters long'),
+    body('fullName').notEmpty().withMessage('Full name is required'),
+  ],
+  validateRequest,
+  register
+);
 
-router.post('/login', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const token = await AuthService.login(email, password);
-    res.json({ token });
-  } catch (error: any) {
-    res.status(401).json({ error: error.message });
-  }
-});
+router.post(
+  '/login',
+  [
+    body('email').isEmail().withMessage('Please provide a valid email'),
+    body('password').notEmpty().withMessage('Password is required'),
+  ],
+  validateRequest,
+  login
+);
 
-router.post('/forgot-password', async (req, res) => {
-  try {
-    const { email } = req.body;
-    await AuthService.forgotPassword(email);
-    res.status(200).json({ message: 'Password reset email sent' });
-  } catch (error: any) {
-    res.status(400).json({ error: error.message });
-  }
-});
-
-router.post('/reset-password', async (req, res) => {
-  try {
-    const { token, password } = req.body;
-    await AuthService.resetPassword(token, password);
-    res.status(200).json({ message: 'Password reset successful' });
-  } catch (error: any) {
-    res.status(400).json({ error: error.message });
-  }
-});
-
-router.get('/profile', authenticateToken, async (req, res) => {
-  try {
-    res.json({ user: req.user });
-  } catch (error: any) {
-    res.status(500).json({ error: error.message });
-  }
-});
+router.post('/logout', authenticateToken, logout);
+router.post('/refresh-token', refreshToken);
 
 export default router; 

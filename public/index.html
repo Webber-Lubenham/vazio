@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitore - Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div id="login-container" class="min-h-screen flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg shadow-md w-96">
+            <h2 class="text-2xl font-bold mb-6 text-center">Monitore</h2>
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="email" name="email" required
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Senha</label>
+                    <input type="password" id="password" name="password" required
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <button type="submit"
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Entrar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="dashboard-container" class="min-h-screen hidden">
+        <nav class="bg-white shadow-lg">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="flex justify-between h-16">
+                    <div class="flex">
+                        <div class="flex-shrink-0 flex items-center">
+                            <h1 class="text-xl font-bold">Monitore</h1>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <span id="user-name" class="mr-4"></span>
+                        <button id="logout-btn"
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            Sair
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <div class="px-4 py-6 sm:px-0">
+                <div class="border-4 border-dashed border-gray-200 rounded-lg h-96 p-4">
+                    <h2 class="text-2xl font-bold mb-4">Dashboard</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h3 class="text-lg font-semibold mb-2">Localização Atual</h3>
+                            <div id="current-location" class="text-gray-600">
+                                Carregando...
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h3 class="text-lg font-semibold mb-2">Histórico</h3>
+                            <div id="location-history" class="text-gray-600">
+                                Carregando...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+
+        // Elementos do DOM
+        const loginContainer = document.getElementById('login-container');
+        const dashboardContainer = document.getElementById('dashboard-container');
+        const loginForm = document.getElementById('login-form');
+        const logoutBtn = document.getElementById('logout-btn');
+        const userName = document.getElementById('user-name');
+
+        // Função para salvar o token
+        function saveToken(token) {
+            localStorage.setItem('token', token);
+        }
+
+        // Função para obter o token
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+
+        // Função para remover o token
+        function removeToken() {
+            localStorage.removeItem('token');
+        }
+
+        // Função para verificar se está autenticado
+        function isAuthenticated() {
+            return !!getToken();
+        }
+
+        // Função para fazer login
+        async function login(email, password) {
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Credenciais inválidas');
+                }
+
+                const data = await response.json();
+                saveToken(data.token);
+                return data.user;
+            } catch (error) {
+                console.error('Erro ao fazer login:', error);
+                throw error;
+            }
+        }
+
+        // Função para fazer logout
+        function logout() {
+            removeToken();
+            showLogin();
+        }
+
+        // Função para mostrar o dashboard
+        function showDashboard(user) {
+            loginContainer.classList.add('hidden');
+            dashboardContainer.classList.remove('hidden');
+            userName.textContent = user.fullName;
+        }
+
+        // Função para mostrar o login
+        function showLogin() {
+            loginContainer.classList.remove('hidden');
+            dashboardContainer.classList.add('hidden');
+        }
+
+        // Event Listeners
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const user = await login(email, password);
+                showDashboard(user);
+            } catch (error) {
+                alert('Erro ao fazer login: ' + error.message);
+            }
+        });
+
+        logoutBtn.addEventListener('click', logout);
+
+        // Verificar autenticação ao carregar a página
+        if (isAuthenticated()) {
+            // Aqui você pode fazer uma requisição para obter os dados do usuário
+            // e mostrar o dashboard
+            showDashboard({ fullName: 'Usuário' });
+        } else {
+            showLogin();
+        }
+    </script>
+</body>
+</html> 

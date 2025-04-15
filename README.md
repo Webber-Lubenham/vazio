@@ -1,54 +1,127 @@
-# Reno Supabase API
+# Vazio - Sistema de Monitoramento de Localização
 
-This is a FastAPI application that provides a RESTful API interface to interact with your Supabase database. It includes Swagger documentation for easy testing and integration.
+Um sistema moderno de monitoramento de localização construído com TypeScript, Express e React, projetado para permitir que responsáveis acompanhem a localização de seus dependentes em tempo real.
 
-## Setup
+## Objetivos do Sistema
 
-1. Install the required dependencies:
+- Fornecer localização em tempo real para responsáveis
+- Garantir a segurança e bem-estar dos dependentes
+- Permitir o acompanhamento de rotas e trajetos
+- Notificar responsáveis em caso de desvios de rota
+- Manter histórico de localizações
+
+## Funcionalidades Principais
+
+### Sistema de Autenticação
+- **Cadastro de Usuários**
+  - Responsáveis podem se cadastrar com email, nome completo e senha
+  - Dependentes são cadastrados pelos responsáveis
+  - Validação de dados e verificação de email
+  - Senhas são criptografadas para segurança
+
+- **Login**
+  - Autenticação segura com JWT
+  - Diferentes níveis de acesso (responsável, dependente)
+  - Recuperação de senha via email
+  - Sessões persistentes com refresh tokens
+
+### Dashboard do Responsável
+- **Visão Geral**
+  - Mapa com localização em tempo real dos dependentes
+  - Histórico de localizações
+  - Status atual de cada dependente
+  - Notificações de desvios de rota
+
+- **Funcionalidades**
+  - Visualização de localização em tempo real
+  - Definição de zonas seguras
+  - Configuração de rotas permitidas
+  - Histórico de deslocamentos
+  - Alertas de emergência
+
+- **Recursos Adicionais**
+  - Compartilhamento de localização com outros responsáveis
+  - Relatórios de deslocamento
+  - Configuração de horários de monitoramento
+  - Sistema de alertas personalizáveis
+
+## Pré-requisitos
+
+- Node.js (v18 ou superior)
+- PostgreSQL
+- npm ou yarn
+
+## Configuração
+
+1. Clone o repositório:
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/yourusername/vazio.git
+cd vazio
 ```
 
-2. Make sure your `.env` file is properly configured with your Supabase credentials:
-```
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-
-## Running the Application
-
-Start the server:
+2. Instale as dependências:
 ```bash
-python main.py
+npm install
 ```
 
-The API will be available at:
-- API: http://localhost:8000
-- Swagger Documentation: http://localhost:8000/docs
-- ReDoc Documentation: http://localhost:8000/redoc
+3. Configure as variáveis de ambiente:
+```bash
+cp .env.example .env
+```
+Edite o arquivo `.env` com suas configurações.
 
-## API Endpoints
+4. Configure o banco de dados:
+```bash
+npm run db:migrate
+```
 
-### Users
-- GET /users - Get all users
-- POST /users - Create a new user
+5. Inicie os servidores de desenvolvimento:
+```bash
+# Inicie o servidor backend
+npm run dev:server
 
-### Todos
-- GET /todos - Get all todos
-- POST /todos - Create a new todo
-- PUT /todos/{todo_id} - Update a todo
-- DELETE /todos/{todo_id} - Delete a todo
+# Em um novo terminal, inicie o frontend
+npm run dev:client
+```
 
-## Testing with Swagger
+## Estrutura do Projeto
 
-1. Open http://localhost:8000/docs in your browser
-2. You can test all endpoints directly from the Swagger UI
-3. Click on any endpoint to expand it and see the available parameters
-4. Click "Try it out" to test the endpoint
-5. Fill in the required parameters and click "Execute"
+```
+vazio/
+├── src/
+│   ├── client/          # Aplicação React frontend
+│   ├── server/          # Aplicação Express backend
+│   ├── db/              # Configuração e migrações do banco de dados
+│   ├── services/        # Lógica de negócios
+│   ├── utils/           # Funções utilitárias
+│   └── types/           # Definições de tipos TypeScript
+├── package.json
+└── README.md
+```
 
-## Security
+## Scripts Disponíveis
 
-- The API uses CORS middleware to allow cross-origin requests
-- All endpoints are protected by Supabase authentication
-- Make sure to keep your `.env` file secure and never commit it to version control
+- `npm run dev:server` - Inicia o servidor backend de desenvolvimento
+- `npm run dev:client` - Inicia o frontend de desenvolvimento
+- `npm run build` - Compila tanto o frontend quanto o backend
+- `npm run db:migrate` - Executa as migrações do banco de dados
+- `npm run test` - Executa os testes
+- `npm run lint` - Executa o linter
+
+## Contribuição
+
+1. Faça um fork do repositório
+2. Crie sua branch de feature (`git checkout -b feature/amazing-feature`)
+3. Commit suas mudanças (`git commit -m 'Add some amazing feature'`)
+4. Push para a branch (`git push origin feature/amazing-feature`)
+5. Abra um Pull Request
+
+## Licença
+
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+## Contato
+
+Webber Lubenham - [@seu_twitter](https://twitter.com/seu_twitter)
+
+Link do projeto: [https://github.com/Webber-Lubenham/vazio](https://github.com/Webber-Lubenham/vazio)
